@@ -1,21 +1,24 @@
-import Head from 'next/head'
 import React from 'react'
+import PublicLayout from '../components/PublicLayout'
+import ShowcaseList from '../components/ShowcaseList'
+import Showcase from '../components/Showcase'
 
 const Index: React.FC = () => (
-    <div>
-        <Head>
-            <title>Clothy</title>
-            <meta
-                name="viewport"
-                content="initial-scale=1.0, width=device-width"
-            />
-            <meta name="description" content="The best in clothing" />
-        </Head>
-        <section>
-            <h1>Hello world!</h1>
-            <p>From the boilerplate</p>
-        </section>
-    </div>
+    <PublicLayout>
+        <ShowcaseList
+            showcases={[
+                <Showcase
+                    key={0}
+                    img="/covered-stylish-woman-in-sunglasses-looking-away-3819572.jpg"
+                />,
+                <Showcase
+                    key={1}
+                    img="/photo-of-woman-wearing-white-shirt-3376116.jpg"
+                />,
+                <Showcase key={2} img="/woman-wearing-a-hat-3482614.jpg" />,
+            ]}
+        />
+    </PublicLayout>
 )
 
 export default Index

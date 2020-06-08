@@ -2,3 +2,4 @@ node_modules
 .next
 .vs
 yarn-error.log
+report*
