@@ -31,14 +31,15 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-const PublicDrawer: React.FC = ({
-    setOpen,
-    open,
-}: {
-    children?: React.ReactChildren
+interface PublicDrawerProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
-}) => {
+}
+
+const PublicDrawer: React.SFC<PublicDrawerProps> = ({
+    setOpen,
+    open,
+}: PublicDrawerProps) => {
     const classes = useStyles()
 
     const handleDrawerClose = () => {

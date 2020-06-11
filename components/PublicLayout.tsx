@@ -9,12 +9,13 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
+            flexGrow: 1,
         },
         grow: {
             flexGrow: 1,
         },
         content: {
-            flexGrow: 1,
+            width: '100%',
             padding: theme.spacing(3),
             transition: theme.transitions.create('margin', {
                 easing: theme.transitions.easing.sharp,
@@ -50,7 +51,9 @@ const PublicLayout: React.FC = ({
                         [classes.contentShift]: open,
                     })}
                 >
-                    <Box paddingTop={8}>{children}</Box>
+                    <Box className={classes.root} paddingTop={8}>
+                        {children}
+                    </Box>
                 </main>
             </div>
         </React.Fragment>

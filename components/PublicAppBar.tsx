@@ -83,14 +83,15 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-const PublicAppBar: React.FC = ({
-    setOpen,
-    open,
-}: {
-    children?: React.ReactChildren
+interface PublicAppBarProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     open: boolean
-}) => {
+}
+
+const PublicAppBar: React.SFC<PublicAppBarProps> = ({
+    setOpen,
+    open,
+}: PublicAppBarProps) => {
     const classes = useStyles()
 
     const handleDrawerOpen = () => {
