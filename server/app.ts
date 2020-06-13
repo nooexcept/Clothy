@@ -43,10 +43,30 @@ app.prepare()
                 secret: 'something very secret',
                 resave: false,
                 saveUninitialized: true,
+                cookie: { maxAge: 3600000 },
             })
         )
 
         server.use('/api/products', productRouter)
+
+        server.get('/products/:url', (req, res, next) => {
+            if (req.session.recentProducts) {
+                if (
+                    req.session.recentProducts.every(
+                        (prodURL: string) => prodURL !== req.params.url
+                    )
+                )
+                    req.session.recentProducts.push(req.params.url)
+
+                if (req.session.recentProducts.length === 5)
+                    req.session.recentProducts.pop()
+            } else {
+                req.session.recentProducts = [req.params.url]
+            }
+
+            next()
+        })
+
         server.get('*', (req, res) => handle(req, res))
 
         server.listen(process.env.EXPRESS_PORT, (err) => {

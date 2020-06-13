@@ -1,5 +1,15 @@
 import mongoose from 'mongoose'
 
+export interface Product extends mongoose.Document {
+    name: string
+    url: string
+    description: string
+    stock: number
+    price: number
+    cod: string
+    images: Array<string>
+}
+
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -33,4 +43,4 @@ const productSchema = new mongoose.Schema({
     },
 })
 
-export default mongoose.model('Product', productSchema)
+export default mongoose.model<Product>('Product', productSchema)
