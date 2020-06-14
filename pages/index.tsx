@@ -12,16 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-
-interface Product {
-    name: string
-    url: string
-    description: string
-    stock: number
-    price: number
-    cod: string
-    images: Array<string>
-}
+import { Product } from '../src/types'
 
 interface Collection {
     name: string

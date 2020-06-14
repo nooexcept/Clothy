@@ -21,4 +21,25 @@ productRouter.get('/:url', async (req, res) => {
     }
 })
 
+productRouter.get('/search/:text/:skip/:limit', async (req, res) => {
+    const searchText = req.params.text
+
+    if (searchText.length > 50) {
+        res.json([])
+        return
+    }
+
+    try {
+        const searchedProducts = await Product.find({
+            $text: { $search: searchText },
+        })
+            .skip(parseInt(req.params.skip))
+            .limit(parseInt(req.params.limit))
+
+        res.json(searchedProducts)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
 export default productRouter

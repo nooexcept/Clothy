@@ -1,6 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
-
 import * as express from 'express'
 import next from 'next'
 import mongoose from 'mongoose'
@@ -73,9 +70,7 @@ app.prepare()
 
         server.listen(process.env.EXPRESS_PORT, (err) => {
             if (err) throw err
-            console.log(
-                `> Express ready on http://localhost:${process.env.EXPRESS_PORT}`
-            )
+            console.log(`> Express ready on ${process.env.NEXT_PUBLIC_API_URL}`)
         })
     })
     .catch((ex) => {
