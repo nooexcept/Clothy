@@ -13,6 +13,7 @@ const RedisStore = connectRedis(session)
 const redisClient = redis.createClient({ host: 'redis' })
 
 import productRouter from './routes/product'
+import collectionsRouter from './routes/collections'
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -48,6 +49,7 @@ app.prepare()
         )
 
         server.use('/api/products', productRouter)
+        server.use('/api/collections', collectionsRouter)
 
         server.get('/products/:url', (req, res, next) => {
             if (req.session.recentProducts) {

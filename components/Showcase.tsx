@@ -28,6 +28,8 @@ const useStyles = makeStyles({
 
 interface ShowcaseProps {
     img: string
+    title: string
+    description: string
 }
 
 export default function Showcase(props: ShowcaseProps): React.ReactElement {
@@ -39,7 +41,7 @@ export default function Showcase(props: ShowcaseProps): React.ReactElement {
                 <CardMedia
                     className={classes.media}
                     image={props.img}
-                    title="Some descriptive title"
+                    title={props.title}
                 />
                 <CardContent className={classes.content}>
                     <Typography
@@ -48,7 +50,7 @@ export default function Showcase(props: ShowcaseProps): React.ReactElement {
                         variant="h5"
                         component="h2"
                     >
-                        Collection title
+                        {props.title}
                     </Typography>
                     <Typography
                         variant="body2"
@@ -56,10 +58,7 @@ export default function Showcase(props: ShowcaseProps): React.ReactElement {
                         component="p"
                         noWrap
                     >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Duis tincidunt nibh nec sagittis tempus. In sed libero
-                        nunc. Etiam dolor nibh, laoreet et sem quis, tristique
-                        blandit arcu.
+                        {props.description}
                     </Typography>
                 </CardContent>
             </CardActionArea>

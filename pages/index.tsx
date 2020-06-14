@@ -23,6 +23,13 @@ interface Product {
     images: Array<string>
 }
 
+interface Collection {
+    name: string
+    cover: string
+    description: string
+    products: Array<string>
+}
+
 type SessionMessage = IncomingMessage & {
     session: Express.Session
     sessionID: string
@@ -30,6 +37,12 @@ type SessionMessage = IncomingMessage & {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const recentProds = (context.req as SessionMessage).session.recentProducts
+
+    const showcasedRes = await fetch(
+        `http://localhost:${process.env.EXPRESS_PORT}/api/collections/showcases`
+    )
+
+    const showcased = await showcasedRes.json()
 
     if (recentProds) {
         const products = await Promise.all(
@@ -42,12 +55,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         )
 
         return {
-            props: { recentProducts: products },
+            props: { recentProducts: products, showcased },
         }
     }
 
     return {
-        props: { recentProducts: null },
+        props: { recentProducts: null, showcased },
     }
 }
 
@@ -89,32 +102,33 @@ const RecentViewed: React.SFC<RecentViewedProps> = ({ recentProducts }) => {
     )
 }
 
-const Index: React.SFC<{ recentProducts: Array<Product> | null }> = ({
+const Index: React.SFC<{
+    recentProducts: Array<Product> | null
+    showcased: Array<Collection> | null
+}> = ({
     recentProducts,
+    showcased,
 }: {
     recentProducts: Array<Product> | null
+    showcased: Array<Collection> | null
 }) => {
     return (
         <PublicLayout>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <ShowcaseList
-                        showcases={[
-                            <Showcase
-                                key={0}
-                                img="/covered-stylish-woman-in-sunglasses-looking-away-3819572.jpg"
-                            />,
-                            <Showcase
-                                key={1}
-                                img="/photo-of-woman-wearing-white-shirt-3376116.jpg"
-                            />,
-                            <Showcase
-                                key={2}
-                                img="/woman-wearing-a-hat-3482614.jpg"
-                            />,
-                        ]}
-                    />
-                </Grid>
+                {showcased && (
+                    <Grid item xs={12}>
+                        <ShowcaseList
+                            showcases={showcased.map((coll, i) => (
+                                <Showcase
+                                    key={i}
+                                    img={coll.cover}
+                                    title={coll.name}
+                                    description={coll.description}
+                                />
+                            ))}
+                        />
+                    </Grid>
+                )}
                 {recentProducts && (
                     <Grid item xs={12}>
                         <Box pl={6} pr={6}>

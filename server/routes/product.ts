@@ -4,13 +4,21 @@ import Product from '../models/Product'
 const productRouter = express.Router()
 
 productRouter.get('/', async (req, res) => {
-    const products = await Product.find()
-    res.json(products)
+    try {
+        const products = await Product.find()
+        res.json(products)
+    } catch (e) {
+        console.error(e)
+    }
 })
 
 productRouter.get('/:url', async (req, res) => {
-    const product = await Product.findOne({ url: req.params.url })
-    res.json(product)
+    try {
+        const product = await Product.findOne({ url: req.params.url })
+        res.json(product)
+    } catch (e) {
+        console.error(e)
+    }
 })
 
 export default productRouter
