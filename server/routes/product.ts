@@ -1,5 +1,6 @@
 import * as express from 'express'
 import Product from '../models/Product'
+import redisClient from '../redisClient'
 
 const productRouter = express.Router()
 
@@ -7,6 +8,35 @@ productRouter.get('/', async (req, res) => {
     try {
         const products = await Product.find()
         res.json(products)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
+productRouter.get('/trending', (req, res) => {
+    try {
+        redisClient.hgetall('productUrls', async (err, reply) => {
+            if (err) {
+                console.error(err)
+                res.json({})
+                return
+            }
+
+            if (!reply) {
+                res.json([])
+                return
+            }
+
+            const trendingProds = await Promise.all(
+                Object.keys(reply)
+                    // Sort and slice could be optimized here
+                    .sort((a, b) => parseInt(reply[b]) - parseInt(reply[a]))
+                    .slice(0, 10)
+                    .map(async (url) => await Product.findOne({ url }))
+            )
+
+            res.json(trendingProds)
+        })
     } catch (e) {
         console.error(e)
     }

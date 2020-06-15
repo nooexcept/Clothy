@@ -1,13 +1,12 @@
 import * as express from 'express'
 import next from 'next'
 import mongoose from 'mongoose'
-import redis from 'redis'
 import helmet from 'helmet'
 import cors from 'cors'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
+import redisClient from './redisClient'
 const RedisStore = connectRedis(session)
-const redisClient = redis.createClient({ host: 'redis' })
 
 import productRouter from './routes/product'
 import collectionsRouter from './routes/collections'
@@ -63,6 +62,7 @@ app.prepare()
                 req.session.recentProducts = [req.params.url]
             }
 
+            redisClient.hincrby('productUrls', req.params.url, 1)
             next()
         })
 

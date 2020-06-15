@@ -63,7 +63,10 @@ const PublicDrawer: React.SFC<PublicDrawerProps> = ({
             </div>
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem
+                    button
+                    onClick={() => (window.location.href = `/trending`)}
+                >
                     <ListItemIcon>
                         <WhatshotIcon />
                     </ListItemIcon>

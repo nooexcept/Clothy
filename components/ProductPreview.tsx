@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import Link from 'next/link'
 import Paper from '@material-ui/core/Paper'
 import Zoom from '@material-ui/core/Zoom'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -46,29 +45,31 @@ const ProductPreview: React.SFC<ProductPreviewProps> = ({
 
     return (
         <Zoom in>
-            <Paper className={classes.root} elevation={3}>
-                <Link href={`products/${url}`}>
-                    <CardActionArea className={classes.cardRoot}>
-                        <div className={classes.details}>
-                            <CardContent className={classes.content}>
-                                <Typography component="h6" variant="h6">
-                                    {name}
-                                </Typography>
-                                <Typography
-                                    variant="subtitle1"
-                                    color="textSecondary"
-                                >
-                                    {desc}
-                                </Typography>
-                            </CardContent>
-                        </div>
-                        <CardMedia
-                            style={{ width: 250, height: '100%' }}
-                            image={img}
-                            title={name}
-                        />
-                    </CardActionArea>
-                </Link>
+            <Paper
+                onClick={() => (window.location.href = `/products/${url}`)}
+                className={classes.root}
+                elevation={3}
+            >
+                <CardActionArea className={classes.cardRoot}>
+                    <div className={classes.details}>
+                        <CardContent className={classes.content}>
+                            <Typography component="h6" variant="h6">
+                                {name}
+                            </Typography>
+                            <Typography
+                                variant="subtitle1"
+                                color="textSecondary"
+                            >
+                                {desc}
+                            </Typography>
+                        </CardContent>
+                    </div>
+                    <CardMedia
+                        style={{ width: 250, height: '100%' }}
+                        image={img}
+                        title={name}
+                    />
+                </CardActionArea>
             </Paper>
         </Zoom>
     )
