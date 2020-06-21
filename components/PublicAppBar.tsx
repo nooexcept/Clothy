@@ -73,6 +73,7 @@ const PublicAppBar: React.SFC<PublicAppBarProps> = ({
                     <IconButton
                         edge="start"
                         color="inherit"
+                        id="open-drawer"
                         className={classes.menuButton}
                         onClick={handleDrawerOpen}
                         aria-label="open drawer"
@@ -93,6 +94,7 @@ const PublicAppBar: React.SFC<PublicAppBarProps> = ({
                         <IconButton
                             aria-label="go to the github page"
                             color="inherit"
+                            id="git-icon"
                             onClick={() =>
                                 window.open(
                                     'https://github.com/nooexcept/Clothy',

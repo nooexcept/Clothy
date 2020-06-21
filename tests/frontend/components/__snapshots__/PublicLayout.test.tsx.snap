@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PublicLayout /> rendering should render without problems 1`] = `
+<Fragment>
+  <div
+    className="makeStyles-root-1"
+  >
+    <PublicAppBar
+      open={false}
+      setOpen={[Function]}
+    />
+    <PublicDrawer
+      open={false}
+      setOpen={[Function]}
+    />
+    <main
+      className="makeStyles-content-3"
+    >
+      <Styled(MuiBox)
+        className="makeStyles-root-1"
+        paddingTop={8}
+      >
+        <p>
+          Hello world
+        </p>
+      </Styled(MuiBox)>
+    </main>
+  </div>
+</Fragment>
+`;

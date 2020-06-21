@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ShowcaseList /> rendering should render without problems 1`] = `
+<WithStyles(ForwardRef(Grid))
+  container={true}
+  justify="center"
+  spacing={2}
+>
+  <ForwardRef(Zoom)
+    in={true}
+    key="0"
+    style={
+      Object {
+        "transitionDelay": "100ms",
+      }
+    }
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+    >
+      <Showcase
+        description="If you wanna look chill, you need ultra chill jumpers"
+        img="/photo-of-woman-standing-on-staircase-3120339.jpg"
+        key="0"
+        title="Ultra chill jumpers"
+      />
+    </WithStyles(ForwardRef(Grid))>
+  </ForwardRef(Zoom)>
+  <ForwardRef(Zoom)
+    in={true}
+    key="1"
+    style={
+      Object {
+        "transitionDelay": "200ms",
+      }
+    }
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+    >
+      <Showcase
+        description="If you wanna look chill, you need ultra chill jumpers"
+        img="/photo-of-woman-standing-on-staircase-3120339.jpg"
+        key="1"
+        title="Ultra chill jumpers"
+      />
+    </WithStyles(ForwardRef(Grid))>
+  </ForwardRef(Zoom)>
+  <ForwardRef(Zoom)
+    in={true}
+    key="2"
+    style={
+      Object {
+        "transitionDelay": "300ms",
+      }
+    }
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+    >
+      <Showcase
+        description="If you wanna look chill, you need ultra chill jumpers"
+        img="/photo-of-woman-standing-on-staircase-3120339.jpg"
+        key="2"
+        title="Ultra chill jumpers"
+      />
+    </WithStyles(ForwardRef(Grid))>
+  </ForwardRef(Zoom)>
+</WithStyles(ForwardRef(Grid))>
+`;

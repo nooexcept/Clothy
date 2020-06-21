@@ -71,45 +71,43 @@ const ProductSearch: React.FC = () => {
 
     let source: CancelTokenSource | null = null
 
-    const OnSearch = (e: {
-        target: { value: React.SetStateAction<string> }
-    }) => {
+    const OnSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const textVal = e.target.value
         setSearchText(textVal)
-        ;(async () => {
+
+        if (!!source) {
+            source.cancel()
+        }
+
+        if (textVal && textVal.length > 2) {
+            source = CancelToken.source()
+
             try {
-                if (!!source) {
-                    source.cancel()
-                }
+                const suggested = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/products/search/${textVal}/0/3`,
+                    {
+                        cancelToken: source.token,
+                    }
+                )
 
-                if (textVal && textVal.length > 2) {
-                    source = CancelToken.source()
-
-                    const suggested = await axios.get(
-                        `${process.env.NEXT_PUBLIC_API_URL}/api/products/search/${textVal}/0/3`,
-                        {
-                            cancelToken: source.token,
-                        }
-                    )
-
-                    setSuggestions({
-                        display: true,
-                        data: suggested.data.map((prod: Product) => ({
-                            ...prod,
-                            description: `${withLimitedWords(
-                                prod.description,
-                                12
-                            )}...`,
-                        })),
-                    })
-                } else {
-                    source = null
-                    setSuggestions({ display: false, data: [] })
-                }
+                setSuggestions({
+                    display: true,
+                    data: suggested.data.map((prod: Product) => ({
+                        ...prod,
+                        description: `${withLimitedWords(
+                            prod.description,
+                            12
+                        )}...`,
+                    })),
+                })
             } catch (e) {
-                console.error(e)
+                source = null
+                setSuggestions({ display: false, data: [] })
             }
-        })()
+        } else {
+            source = null
+            setSuggestions({ display: false, data: [] })
+        }
     }
 
     return (
@@ -138,7 +136,7 @@ const ProductSearch: React.FC = () => {
                     />
                 </div>
                 {suggestions.display && suggestions.data.length > 0 && (
-                    <div className={classes.suggestions}>
+                    <div id="suggestions" className={classes.suggestions}>
                         <Grid
                             container
                             direction="column"

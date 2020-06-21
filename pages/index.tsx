@@ -2,17 +2,14 @@ import React from 'react'
 import { GetServerSideProps } from 'next'
 import PublicLayout from '../components/PublicLayout'
 import ShowcaseList from '../components/ShowcaseList'
-import Link from 'next/link'
 import { IncomingMessage } from 'http'
+import axios from 'axios'
 import Showcase from '../components/Showcase'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { Product } from '../src/types'
+import RecentViewed from '../components/RecentViewed'
 
 interface Collection {
     name: string
@@ -29,20 +26,18 @@ type SessionMessage = IncomingMessage & {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const recentProds = (context.req as SessionMessage).session.recentProducts
 
-    const showcasedRes = await fetch(
+    const showcased = await axios(
         `http://localhost:${process.env.EXPRESS_PORT}/api/collections/showcases`
-    )
-
-    const showcased = await showcasedRes.json()
+    ).then((res) => res.data)
 
     if (recentProds) {
         const products = await Promise.all(
-            recentProds.map(async (url: string) => {
-                const res = await fetch(
-                    `http://localhost:${process.env.EXPRESS_PORT}/api/products/${url}`
-                )
-                return await res.json()
-            })
+            recentProds.map(
+                async (url: string) =>
+                    await axios(
+                        `http://localhost:${process.env.EXPRESS_PORT}/api/products/${url}`
+                    ).then((res) => res.data)
+            )
         )
 
         return {
@@ -53,44 +48,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: { recentProducts: null, showcased },
     }
-}
-
-interface RecentViewedProps {
-    recentProducts: Array<Product>
-}
-
-const RecentViewed: React.SFC<RecentViewedProps> = ({ recentProducts }) => {
-    return (
-        <>
-            {recentProducts.map((prod: Product) => {
-                return (
-                    <Grid item xs={3} key={prod.url}>
-                        <Link href={`products/${prod.url}`}>
-                            <Card>
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        alt={prod.name}
-                                        image={prod.images[0]}
-                                        title={prod.name}
-                                    />
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                        >
-                                            {prod.name}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Link>
-                    </Grid>
-                )
-            })}
-        </>
-    )
 }
 
 const Index: React.SFC<{
@@ -120,7 +77,7 @@ const Index: React.SFC<{
                         />
                     </Grid>
                 )}
-                {recentProducts && (
+                {recentProducts && recentProducts.length > 0 && (
                     <Grid item xs={12}>
                         <Box pl={6} pr={6}>
                             <Typography

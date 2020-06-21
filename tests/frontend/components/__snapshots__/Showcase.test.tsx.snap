@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Showcase /> rendering should render without problems 1`] = `
+<WithStyles(ForwardRef(Card))
+  className="makeStyles-root-1"
+>
+  <WithStyles(ForwardRef(CardActionArea))>
+    <WithStyles(ForwardRef(CardMedia))
+      className="makeStyles-media-2"
+      image="/photo-of-woman-standing-on-staircase-3120339.jpg"
+      title="Ultra chill jumpers"
+    />
+    <WithStyles(ForwardRef(CardContent))
+      className="makeStyles-content-3"
+    >
+      <WithStyles(ForwardRef(Typography))
+        color="textPrimary"
+        component="h2"
+        gutterBottom={true}
+        variant="h5"
+      >
+        Ultra chill jumpers
+      </WithStyles(ForwardRef(Typography))>
+      <WithStyles(ForwardRef(Typography))
+        color="textPrimary"
+        component="p"
+        noWrap={true}
+        variant="body2"
+      >
+        If you wanna look chill, you need ultra chill jumpers
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(CardContent))>
+  </WithStyles(ForwardRef(CardActionArea))>
+  <WithStyles(ForwardRef(CardActions))
+    className="makeStyles-actions-4"
+    disableSpacing={true}
+  >
+    <WithStyles(ForwardRef(Button))
+      size="small"
+    >
+      <WithStyles(ForwardRef(Typography))
+        color="textPrimary"
+        variant="body1"
+      >
+        Share
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Button))>
+    <WithStyles(ForwardRef(Button))
+      size="small"
+    >
+      <WithStyles(ForwardRef(Typography))
+        color="textPrimary"
+        variant="body1"
+      >
+        Browse
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Button))>
+  </WithStyles(ForwardRef(CardActions))>
+</WithStyles(ForwardRef(Card))>
+`;

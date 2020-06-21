@@ -7,17 +7,9 @@ import AnnouncementIcon from '@material-ui/icons/Announcement'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Box from '@material-ui/core/Box'
+import axios from 'axios'
 import PublicLayout from '../../components/PublicLayout'
-
-interface Product {
-    name: string
-    url: string
-    description: string
-    stock: number
-    price: number
-    cod: string
-    images: Array<string>
-}
+import { Product as IProduct } from '../../src/types'
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -67,10 +59,10 @@ const useStyles = makeStyles(() =>
     })
 )
 
-const Product: React.FC<{ product: Product }> = ({
+const Product: React.FC<{ product: IProduct }> = ({
     product,
 }: {
-    product: Product
+    product: IProduct
 }) => {
     const classes = useStyles()
 
@@ -160,12 +152,11 @@ interface ProdPathParam {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const res = await fetch(
+    const products = await axios(
         `http://localhost:${process.env.EXPRESS_PORT}/api/products/`
-    )
-    const products = await res.json()
+    ).then((res) => res.data)
 
-    const paths: Array<ProdPathParam> = products.map((product: Product) => ({
+    const paths: Array<ProdPathParam> = products.map((product: IProduct) => ({
         params: {
             url: product.url,
         },
@@ -177,10 +168,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({
     params,
 }: ProdPathParam) => {
-    const res = await fetch(
+    const product = await axios(
         `http://localhost:${process.env.EXPRESS_PORT}/api/products/${params.url}`
-    )
-    const product = await res.json()
+    ).then((res) => res.data)
 
     return { props: { product } }
 }

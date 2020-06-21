@@ -57,7 +57,7 @@ const PublicDrawer: React.SFC<PublicDrawerProps> = ({
             }}
         >
             <div className={classes.drawerHeader}>
-                <IconButton onClick={handleDrawerClose}>
+                <IconButton id="close-drawer" onClick={handleDrawerClose}>
                     <ChevronLeftIcon />
                 </IconButton>
             </div>
@@ -65,6 +65,7 @@ const PublicDrawer: React.SFC<PublicDrawerProps> = ({
             <List>
                 <ListItem
                     button
+                    id="trending"
                     onClick={() => (window.location.href = `/trending`)}
                 >
                     <ListItemIcon>

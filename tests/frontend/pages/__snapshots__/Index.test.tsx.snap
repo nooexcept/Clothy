@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Index /> rendering should render without problems 1`] = `
+<PublicLayout>
+  <WithStyles(ForwardRef(Grid))
+    container={true}
+    spacing={3}
+  >
+    <WithStyles(ForwardRef(Grid))
+      item={true}
+      xs={12}
+    >
+      <ShowcaseList
+        showcases={
+          Array [
+            <Showcase
+              description="The summer happiness collection!"
+              img="covered-stylish-woman-in-sunglasses-looking-away-3819572.jpg"
+              title="Summer happiness"
+            />,
+            <Showcase
+              description="The Brazil fashion collection!"
+              img="photo-of-woman-wearing-white-shirt-3376116.jpg"
+              title="Brazil fashion"
+            />,
+            <Showcase
+              description="The vintage collection!"
+              img="woman-wearing-a-hat-3482614.jpg"
+              title="Vintage"
+            />,
+          ]
+        }
+      />
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+</PublicLayout>
+`;

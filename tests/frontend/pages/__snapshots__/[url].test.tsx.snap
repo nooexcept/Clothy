@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Product /> rendering should render without problems 1`] = `
+<PublicLayout>
+  <div
+    className="makeStyles-root-1"
+  >
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      spacing={5}
+    >
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={8}
+      >
+        <Styled(MuiBox)
+          borderRight={1}
+          className="makeStyles-picWrapper-7"
+          height="100%"
+        >
+          <img
+            className="makeStyles-mainPic-6"
+            src="/photo-of-woman-standing-on-staircase-3120339.jpg"
+          />
+        </Styled(MuiBox)>
+      </WithStyles(ForwardRef(Grid))>
+      <WithStyles(ForwardRef(Grid))
+        item={true}
+        xs={4}
+      >
+        <Styled(MuiBox)
+          m={2}
+        >
+          <Styled(MuiBox)
+            ml={1}
+          >
+            <WithStyles(ForwardRef(Typography))
+              gutterBottom={true}
+              variant="caption"
+            >
+              JUMPERS002
+            </WithStyles(ForwardRef(Typography))>
+          </Styled(MuiBox)>
+          <WithStyles(ForwardRef(Typography))
+            className="makeStyles-titleTypo-5"
+            component="h3"
+            gutterBottom={true}
+            variant="h2"
+          >
+            Ultra chill jumpers
+          </WithStyles(ForwardRef(Typography))>
+          <WithStyles(ForwardRef(Typography))
+            className="makeStyles-priceTypo-4"
+            gutterBottom={true}
+            variant="h6"
+          >
+            $80
+          </WithStyles(ForwardRef(Typography))>
+        </Styled(MuiBox)>
+        <Styled(MuiBox)
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+            }
+          }
+        >
+          <AnnouncementIcon
+            color="secondary"
+          />
+          <WithStyles(ForwardRef(Typography))
+            color="secondary"
+            display="inline"
+            gutterBottom={true}
+            variant="body1"
+          >
+            Almost out of stock
+          </WithStyles(ForwardRef(Typography))>
+        </Styled(MuiBox)>
+        <WithStyles(ForwardRef(Button))
+          classes={
+            Object {
+              "label": "makeStyles-buyBtnLabel-3",
+              "root": "makeStyles-buyBtn-2",
+            }
+          }
+        >
+          Add to cart
+        </WithStyles(ForwardRef(Button))>
+        <Styled(MuiBox)
+          mb={3}
+          mt={3}
+        >
+          <WithStyles(ForwardRef(Divider)) />
+        </Styled(MuiBox)>
+        <WithStyles(ForwardRef(Typography))
+          gutterBottom={true}
+          variant="subtitle1"
+        >
+          If you wanna look chill, you need ultra chill jumpers
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Grid))>
+    </WithStyles(ForwardRef(Grid))>
+  </div>
+</PublicLayout>
+`;

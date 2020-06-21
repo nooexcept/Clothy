@@ -1,78 +1,82 @@
 import * as express from 'express'
-import next from 'next'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 import cors from 'cors'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
-import redisClient from './redisClient'
-const RedisStore = connectRedis(session)
+import redis from 'redis'
 
 import productRouter from './routes/product'
 import collectionsRouter from './routes/collections'
 
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+export default async (
+    redisHost: string,
+    mongoHost: string
+): Promise<{ app: express.Express; clear: () => void }> => {
+    const redisClient = redis.createClient({ host: redisHost })
+    const RedisStore = connectRedis(session)
 
-mongoose
-    .connect('mongodb://db:27017/clothy', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log('> MongoDB ready')
-    })
-    .catch((error) => console.error(error))
+    mongoose.set('useCreateIndex', true)
 
-mongoose.set('useCreateIndex', true)
+    await mongoose
+        .connect(`mongodb://${mongoHost}:27017/clothy`, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+        .then(() => {
+            console.log('> MongoDB ready')
+        })
+        .catch((error) => console.error(error))
 
-app.prepare()
-    .then(() => {
-        const server = express.default()
+    const app = express.default()
 
-        server.use(cors())
-        server.use(helmet())
+    app.use(cors())
+    app.use(helmet())
 
-        server.use(
-            session({
-                store: new RedisStore({ client: redisClient }),
-                secret: 'something very secret',
-                resave: false,
-                saveUninitialized: true,
-                cookie: { maxAge: 3600000 },
-            })
-        )
+    const sessionStore = new RedisStore({ client: redisClient })
 
-        server.use('/api/products', productRouter)
-        server.use('/api/collections', collectionsRouter)
+    app.use(
+        session({
+            store: sessionStore,
+            secret: 'something very secret',
+            resave: false,
+            saveUninitialized: true,
+            cookie: { maxAge: 3600000 },
+        })
+    )
 
-        server.get('/products/:url', (req, res, next) => {
-            if (req.session.recentProducts) {
-                if (
-                    req.session.recentProducts.every(
-                        (prodURL: string) => prodURL !== req.params.url
-                    )
+    app.use('/api/products', productRouter(redisClient))
+    app.use('/api/collections', collectionsRouter)
+
+    app.get('/products/:url', (req, res, next) => {
+        if (
+            req.session.recentProducts &&
+            Array.isArray(req.session.recentProducts)
+        ) {
+            if (req.session.recentProducts.length === 5)
+                req.session.recentProducts.pop()
+
+            if (
+                req.session.recentProducts.every(
+                    (prodURL: string) => prodURL !== req.params.url
                 )
-                    req.session.recentProducts.push(req.params.url)
+            )
+                req.session.recentProducts.push(req.params.url)
+        } else {
+            req.session.recentProducts = [req.params.url]
+        }
 
-                if (req.session.recentProducts.length === 5)
-                    req.session.recentProducts.pop()
-            } else {
-                req.session.recentProducts = [req.params.url]
-            }
-
-            redisClient.hincrby('productUrls', req.params.url, 1)
-            next()
-        })
-
-        server.get('*', (req, res) => handle(req, res))
-
-        server.listen(process.env.EXPRESS_PORT, (err) => {
-            if (err) throw err
-            console.log(`> Express ready on ${process.env.NEXT_PUBLIC_API_URL}`)
-        })
+        redisClient.hincrby('productUrls', req.params.url, 1)
+        next()
     })
-    .catch((ex) => {
-        console.error(ex.stack)
-    })
+
+    return {
+        app,
+        clear: async () => {
+            sessionStore.clear()
+            redisClient.del('productUrls')
+            redisClient.quit()
+            await mongoose.connection.close()
+        },
+    }
+}
